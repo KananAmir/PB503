@@ -1,7 +1,9 @@
 const todoForm = document.querySelector(".todo-form")
 const todoInput = document.querySelector(".todo-input")
 
-let todos = []
+let todos = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
+
+renderTodos(todos)
 
 
 todoForm.addEventListener("submit", (e)=>{
@@ -16,7 +18,7 @@ todoForm.addEventListener("submit", (e)=>{
 
     todos = [...todos, todo]
     
-
+    localStorage.setItem("todos", JSON.stringify(todos))
     renderTodos(todos)
     resetForm()
     
@@ -55,7 +57,7 @@ function renderTodos(allTodos){
         btn.addEventListener("click", (e)=>{
            const todoId = e.target.getAttribute("data-id");
             todos = todos.filter((q)=>q.id != todoId)
-
+            localStorage.setItem("todos", JSON.stringify(todos))
             btn.parentElement.remove()
             // renderTodos(todos)
         })
@@ -67,6 +69,7 @@ function renderTodos(allTodos){
            selectedTodo.completed = !selectedTodo.completed
             console.log(selectedTodo);
             
+            localStorage.setItem("todos", JSON.stringify(todos))
             renderTodos(todos)     
            
         })
